@@ -28,8 +28,15 @@
   color: #61dafb;
 }
 
-.Title {
+.title {
   text-align: center;
+  align-items: center;
+  justify-content: center;
+}
+
+.rows {
+  display: flex;
+  flex-direction: row;
   align-items: center;
   justify-content: center;
 }
