@@ -38,7 +38,7 @@ class Cards extends Component {
       {
         name: 'Agency Expenditures',
         definition:
-          'Annual spending for personal services and other than personal services(OTPS) within each city agency.',
+          'Annual spending for personal services and other than personal services (OTPS) within each city agency.',
       },
       {
         name: 'Expense Actuals',
@@ -54,12 +54,13 @@ class Cards extends Component {
               className={classes.root}
               variant="outlined"
               key={currentExpense.name}
+              style={{ flex: '1 1 0', padding: '0 1rem' }}
             >
               <CardContent>
-                <Typography variant="h5" component="h2">
+                <Typography variant="h5" component="h2" gutterBottom="false">
                   {currentExpense.name}
                 </Typography>
-                <Typography variant="body2" component="p">
+                <Typography variant="body2" component="p" align="left">
                   {currentExpense.definition}
                 </Typography>
               </CardContent>
