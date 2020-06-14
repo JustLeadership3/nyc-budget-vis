@@ -41,6 +41,17 @@
   justify-content: center;
 }
 
+#graph-container {
+  display: flex;
+  align-items: center;
+  max-width: 80%;
+  height: 60%;
+}
+
+#graph-container svg {
+  margin: 100px;
+}
+
 
 @keyframes App-logo-spin {
   from {

@@ -51,24 +51,28 @@ class Graph extends Component {
     const LowestXhighestY = findLowestXHighestY(returnedArray);
 
     return (
-        <VictoryChart
-        theme={VictoryTheme.material}
-        domain={{x: [LowestXhighestY.x, 2019], y: [0, LowestXhighestY.y]}}
-        style={{ parent: { maxWidth: "75%" } }} 
-        width={400} height={200}
-        >
-            <VictoryLabel text="Chart Title" x={225} y={30} textAnchor="middle"/>
+        <div id={"graph-container"}>
+            <VictoryChart
+                theme={VictoryTheme.material}
+                domain={{x: [LowestXhighestY.x, 2019], y: [0, LowestXhighestY.y]}}
+                
+            >
+                <VictoryLabel text="Chart Title" x={225} y={30} textAnchor="middle"/>
 
-            <VictoryLegend x={125} y={50}
-                orientation='horizontal'
-                gutter={20}
-                style={{boarder: {stroke: 'black'}, title: {fontSize: 20}}}
+                <VictoryLine
+                style={{
+                    data: { stroke: "#C43A31" },
+                    parent: { border: "1px solid #ccc"}
+                }}
                 data={[
-                    {name: 'One', symbol: {fill: "tomato", type: "star"}},
-                    {name: 'Two', symbol: {fill: "orange"}},
-                    {name: 'Three', symbol: {fill: "gold"}}
+                    { x: 1, y: 5 },
+                    { x: 2, y: 6 },
+                    { x: 3, y: 8 },
+                    { x: 4, y: 9 },
+                    { x: 5, y: 5 }
                 ]}
-            />
+                />
+
             {
                 returnedArray.map((currentDept) => {
                     return (
@@ -81,7 +85,19 @@ class Graph extends Component {
                     data={ currentDept.data }
                     />
                 )})}
-      </VictoryChart>
+            </VictoryChart>
+            <VictoryLegend       
+                gutter={20}
+                itemsPerRow={5}
+                data={[
+                    {name: 'One', symbol: {fill: "tomato", type: "star"}},
+                    {name: 'Two', symbol: {fill: "orange"}},
+                    {name: 'Three', symbol: {fill: "gold"}},
+                    {name: 'Three', symbol: {fill: "gold"}},
+
+                ]}
+            />
+      </div>
     );
   }
 }
