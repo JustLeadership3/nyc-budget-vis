@@ -13,7 +13,7 @@ const defaultState = {
   currentDataSet: '',
   capitalExp: null,
   agencyExp: null,
-  expenseActuals: [0, 1, 2],
+  expenseActuals: null,
 };
 
 // Action Types

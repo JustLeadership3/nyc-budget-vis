@@ -2,10 +2,8 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
-import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 import Button from '@material-ui/core/Button';
-import Typography from '@material-ui/core/Typography';
 import { getCapitalExp, getAgencyExp, getExpenseActuals } from '../store';
 import { connect } from 'react-redux';
 import Graph from './Graph';
@@ -32,7 +30,7 @@ class Cards extends Component {
     const { classes } = this.props;
     const listOfExpenses = [
       {
-        name: 'Capital Expendatures',
+        name: 'Capital Expenditures',
         definition:
           'Capital expenditures are the amounts spent for tangible assets that will be used for more than one year in the operations of a business.',
       },
@@ -50,38 +48,35 @@ class Cards extends Component {
 
     return (
       <div>
-          <div className="rows">
-          {listOfExpenses.map((currentExpense) => {
-            return (
-              <Card
-                className={classes.root}
-                variant="outlined"
-                key={currentExpense.name}
-                style={{ flex: '1 1 0', padding: '0 1rem' }}
+      <div className="card-container">
+        {listOfExpenses.map((currentExpense) => {
+          return (
+            <Card
+              className={`${classes.root}} card`}
+              variant="outlined"
+              key={currentExpense.name}
+            >
+              <CardContent >
+                <p className="card-title">
+                  {currentExpense.name}
+                  </p>
+                  <p className="card-descrition">
+                  {currentExpense.definition}
+                  </p>
+              </CardContent>
+              <Button
+                id="button"
+                onClick={() => {
+                  this.props.getData(currentExpense.name);
+                }}
               >
-                <CardContent>
-                  <Typography variant="h5" component="h2" gutterBottom={true}>
-                    {currentExpense.name}
-                  </Typography>
-                  <Typography variant="body2" component="p" align="left">
-                    {currentExpense.definition}
-                  </Typography>
-                </CardContent>
-                <CardActions className="title">
-                  <Button
-                    size="small"
-                    onClick={() => {
-                      this.props.getData(currentExpense.name);
-                    }}
-                  >
-                    Show Graph
-                  </Button>
-                </CardActions>
-                </Card>
-            );
-          })}
-          </div>
-        <Graph currentDataSet={this.props.currentDataSet()}/>
+                Show Graph
+              </Button>
+            </Card>
+          );
+        })}
+      </div>
+      <Graph currentDataSet={this.props.currentDataSet()} currentDataSetName={this.props.currentDataSetName}/>
       </div>
     );
   }
@@ -94,7 +89,7 @@ Cards.propTypes = {
 const mapDispatch = (dispatch) => ({
   getData: (name) => {
     switch (name) {
-      case 'Capital Expendatures':
+      case 'Capital Expenditures':
         dispatch(getCapitalExp());
         return;
       case 'Agency Expenditures':
@@ -120,7 +115,10 @@ const mapState = (state) => ({
     } else {
       return [];
     }
-  }
+  },
+
+  currentDataSetName: state.currentDataSet
+
 })
 
 export default connect(mapState, mapDispatch)(withStyles(useStyles)(Cards));

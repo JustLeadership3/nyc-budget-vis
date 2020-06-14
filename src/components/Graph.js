@@ -12,7 +12,6 @@ class Graph extends Component {
     let legendData = [];
 
     const returnedArray = this.props.currentDataSet;
-    console.log('Graph Data:', returnedArray);
 
     function getRandomColor() {
       var letters = '0123456789ABCDEF';
@@ -23,14 +22,34 @@ class Graph extends Component {
       return color;
     }
 
+    let displayName = ""
+
+    if (this.props.currentDataSetName === 'capitalExp') {
+      displayName = "Capital Expenditures"
+    } else if (this.props.currentDataSetName === 'agencyExp') {
+      displayName = "Agency Expenditures"
+    } else if (this.props.currentDataSetName === 'expenseActuals') {
+      displayName = "Expense Actuals"
+    }
+
+    console.log(this.props.currentDataSetName)
     return (
       <div id={'graph-container'}>
         <VictoryChart
+        id="victory-chart"
           scale="linear"
           theme={VictoryTheme.material}
-          padding={{ left: 100, bottom: 100, right: 100 }}
+          padding={{left: 100, bottom: 50, right: 100, top: 100}}
+          style={{parent: { maxwidth: 1000}}}
+          width={1000} // aspect ratio to stretch graph horizontally
         >
-          <VictoryLabel text="Chart Title" x={225} y={30} textAnchor="middle" />
+          <VictoryLabel
+          id="chart-title"
+          text={displayName}
+          style={{fontSize: "20px"}}
+          dy={30}
+          dx={30}
+          textAnchor="start"/>
 
           {returnedArray.map((currentDept) => {
             let color = getRandomColor();
@@ -50,7 +69,12 @@ class Graph extends Component {
             );
           })}
         </VictoryChart>
-        <VictoryLegend gutter={20} itemsPerRow={5} data={legendData} />
+        <VictoryLegend  
+          gutter={20}
+          itemsPerRow={30}
+          data={legendData}
+          width={1000} // aspect ratio to make the legend a good size relative to the chart
+        />
       </div>
     );
   }
