@@ -43,7 +43,6 @@ class Graph extends Component {
             <VictoryChart
                 scale="linear"
                 theme={VictoryTheme.material}
-                domain={{x: [LowestXhighestY.x, 2019], y: [0, LowestXhighestY.y]}}
                 padding={{left: 100, bottom: 100, right: 100}}
             >
                 <VictoryLabel
