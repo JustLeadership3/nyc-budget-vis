@@ -81,7 +81,7 @@ export const getExpenseActuals = () => async (dispatch) => {
 const reducer = (state = defaultState, action) => {
   switch (action.type) {
     case STORE_CAPITAL_EXP:
-      state.capitaExp = action.capitalExp;
+      state.capitalExp = action.capitalExp;
       return state;
     case STORE_AGENCY_EXP:
       state.agencyExp = action.agencyExp;
