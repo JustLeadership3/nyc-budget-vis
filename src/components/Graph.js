@@ -9,7 +9,6 @@ class Graph extends Component {
     return (
         <div id = {"graph-container"}>
             <VictoryChart
-            id={"victory-chart"}
             theme={VictoryTheme.material}
             domain={{x: [1, 5], y: [0, 14]}}
             >
@@ -42,8 +41,7 @@ class Graph extends Component {
                 ]}
                 />
         </VictoryChart>
-        <VictoryLegend 
-                classname={"victory-legend"}        
+        <VictoryLegend       
                     gutter={20}
                     itemsPerRow={5}
                     data={[
