@@ -48,7 +48,7 @@ class Cards extends Component {
     ];
     return (
       <div className="rows">
-        {listOfExpenses.map((currentExpense) => {
+        {listOfExpenses.map((currentExpense, index) => {
           return (
             <Card
               className={classes.root}
