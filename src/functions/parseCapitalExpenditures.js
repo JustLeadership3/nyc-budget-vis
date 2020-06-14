@@ -39,7 +39,7 @@ function processCapitalExpenditures(json) {
       const fiscalYearString = oneDepartment[`fy_${fiscalYearInt}`];
       const amountInt = parseFloat(fiscalYearString.replace(/,/g, ''));
       let valuesHash = {};
-      valuesHash['x'] = fiscalYearInt;
+      valuesHash['x'] = `${fiscalYearInt}`;
       valuesHash['y'] = amountInt;
       dataArray.push(valuesHash);
     });

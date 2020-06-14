@@ -15,7 +15,7 @@ function parseAgencyApi(apiData) {
     if (elem.agency_expenditures === 'TOTAL DEPT.') {
       for (let year = 2018; year > 2013; year--) {
         let temp = {};
-        temp.x = year;
+        temp.x = `${year}`;
         temp.y = parseFloat(elem[`fy${year}`].replace(/,/g, ''));
 
         data.push(temp);

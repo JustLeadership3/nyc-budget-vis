@@ -31,7 +31,7 @@ class Cards extends Component {
     const { classes } = this.props;
     const listOfExpenses = [
       {
-        name: 'Capital Expendatures',
+        name: 'Capital Expenditures',
         definition:
           'Capital expenditures are the amounts spent for tangible assets that will be used for more than one year in the operations of a business.',
       },
@@ -47,33 +47,30 @@ class Cards extends Component {
       },
     ];
     return (
-      <div className="rows">
+      <div className="card-container">
         {listOfExpenses.map((currentExpense, index) => {
           return (
             <Card
-              className={classes.root}
+              className={`${classes.root}} card`}
               variant="outlined"
               key={currentExpense.name}
-              style={{ flex: '1 1 0', padding: '0 1rem' }}
             >
-              <CardContent>
-                <Typography variant="h5" component="h2" gutterBottom={true}>
+              <CardContent >
+                <p className="card-title">
                   {currentExpense.name}
-                </Typography>
-                <Typography variant="body2" component="p" align="left">
+                  </p>
+                  <p className="card-descrition">
                   {currentExpense.definition}
-                </Typography>
+                  </p>
               </CardContent>
-              <CardActions className="title">
                 <Button
-                  size="small"
+                  id="button"
                   onClick={() => {
                     this.props.getData(currentExpense.name);
                   }}
                 >
                   Show Graph
                 </Button>
-              </CardActions>
             </Card>
           );
         })}
@@ -89,7 +86,7 @@ Cards.propTypes = {
 const mapDispatch = (dispatch) => ({
   getData: (name) => {
     switch (name) {
-      case 'Capital Expendatures':
+      case 'Capital Expenditures':
         dispatch(getCapitalExp());
         return;
       case 'Agency Expenditures':

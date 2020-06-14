@@ -5,26 +5,27 @@ import { VictoryChart, VictoryLine, VictoryTheme, VictoryLegend, VictoryLabel } 
 
 
 class Graph extends Component {
+  
   render () {
     let legendData = [];
 
     const returnedArray = [
         { agency: "NYPD",
         data: [
-          {x: 2015,
+          {x: "2015",
           y: 500000},
-          {x: 2016,
+          {x: "2016",
           y: 500000},
-          {x: 2017,
+          {x: "2017",
           y: 500000},
         ]}, 
         { agency: "Education",
         data: [
-          {x: 2015,
+          {x: "2015",
           y: 400000},
-          {x: 2016,
+          {x: "2016",
           y: 1600000},
-          {x: 2017,
+          {x: "2017",
           y: 200000},
         ]}
       ];
@@ -41,17 +42,21 @@ class Graph extends Component {
     return (
         <div id={"graph-container"}>
             <VictoryChart
+                id="victory-chart"
                 scale="linear"
                 theme={VictoryTheme.material}
-                padding={{left: 100, bottom: 100, right: 100}}
+                padding={{left: 100, bottom: 50, right: 100, top: 100}}
+                style={{parent: { maxwidth: 1000}}}
+                width={1000} // aspect ratio to stretch graph horizontally
             >
                 <VictoryLabel
+                id="chart-title"
                 text="Chart Title"
-                x={225}
-                y={30}
-                textAnchor="middle"
+                style={{fontSize: "20px"}}
+                dy={30}
+                dx={30}
+                textAnchor="start"
                 />
-
             {
                 returnedArray.map((currentDept) => {
                     let color = getRandomColor();
@@ -66,11 +71,13 @@ class Graph extends Component {
                     data={ currentDept.data }
                     />
                 )})}
+            
             </VictoryChart>
-            <VictoryLegend       
+            <VictoryLegend  
                 gutter={20}
-                itemsPerRow={5}
+                itemsPerRow={10}
                 data={legendData}
+                width={1000} // aspect ratio to make the legend a good size relative to the chart
             />
       </div>
     );
