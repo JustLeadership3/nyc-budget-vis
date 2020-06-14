@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
-import Cards from './components/Cards'
-import Graph from './components/Graph'
+import Cards from './components/Cards';
 
 class App extends Component {
   render () {
@@ -15,7 +14,6 @@ class App extends Component {
           </p>
         </header>
         <Cards />
-        <Graph />
       </div>
     );
   }
