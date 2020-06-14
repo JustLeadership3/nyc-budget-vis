@@ -57,7 +57,7 @@ class Cards extends Component {
               style={{ flex: '1 1 0', padding: '0 1rem' }}
             >
               <CardContent>
-                <Typography variant="h5" component="h2" gutterBottom={false}>
+                <Typography variant="h5" component="h2" gutterBottom={true}>
                   {currentExpense.name}
                 </Typography>
                 <Typography variant="body2" component="p" align="left">
