@@ -1,7 +1,5 @@
 function parseAgencyApi(apiData) {
-    // will be the final data structure
-    let returnArray = []
-    let data = [];
+    let parsedData = [];
     let dept = {};
 
     // loop through the data retrieved from the API
@@ -9,24 +7,21 @@ function parseAgencyApi(apiData) {
         let elem = apiData[i];
         // if an element has only one key we know that key is the name of the department we are lookin at right now
         if (Object.keys(elem).length === 1) {
-            dept.agency = elem.agency_expenditures.toUpperCase();
+            dept.name = elem.agency_expenditures;
         }
         // if the name of the expendature is 'total dept' we want to loop through that object and add each years expense for the last five years
         if (elem.agency_expenditures === 'TOTAL DEPT.') {
             for (let year = 2018; year > 2013; year--) {
-            let temp = {}
-            temp.x = year
-            temp.y = parseFloat(elem[`fy${year}`].replace(/,/g, ''))
-            
-            data.push(temp)
+                //adding the year and its exp to our dept object
+                dept[`${year}`] = elem[`fy${year}`];
             }
-            // finally add our department to the final data set and reset the dept obj so we can be ready for the next one.
-				dept.data = data;
-        returnArray.push(dept)
+            // finally add our department to our parsed data array and reset the dept obj so we can be ready for the next one.
+            parsedData.push(dept);
             dept = {};
         }
     }
-    return returnArray;
+
+    return parsedData;
 }
 
 export default parseAgencyApi;
