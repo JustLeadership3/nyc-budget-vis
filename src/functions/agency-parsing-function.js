@@ -15,10 +15,12 @@ function parseAgencyApi(apiData) {
     if (elem.agency_expenditures === 'TOTAL DEPT.') {
       for (let year = 2018; year > 2013; year--) {
         let temp = {};
-        temp.x = year;
-        temp.y = parseFloat(elem[`fy${year}`].replace(/,/g, ''));
+        if (parseFloat(elem[`fy${year}`])) {
+          temp.x = year;
+          temp.y = parseFloat(elem[`fy${year}`].replace(/,/g, ''));
 
-        data.push(temp);
+          data.push(temp);
+        }
       }
       // finally add our department to the final data set and reset the dept obj so we can be ready for the next one.
       dept.data = data;
