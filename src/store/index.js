@@ -2,10 +2,15 @@ import { createStore, applyMiddleware } from 'redux';
 import { createLogger } from 'redux-logger';
 import thunk from 'redux-thunk';
 import axios from 'axios';
+import {
+  parseAgencyApi,
+  processCapitalExpenditures,
+  parseExpenseActuals,
+} from '../functions';
 
 // Initial State
 const defaultState = {
-  currentAgency: '',
+  currentDataSet: '',
   capitalExp: null,
   agencyExp: null,
   expenseActuals: null,
@@ -15,7 +20,7 @@ const defaultState = {
 const STORE_CAPITAL_EXP = 'STORE_CAPITAL_EXP';
 const STORE_AGENCY_EXP = 'STORE_AGENCY_EXP';
 const STORE_EXPENSE_ACTUALS = 'STORE_EXPENSE_ACTUALS';
-const UPDATE_CURRENT_AGENCY = 'UPDATE_CURRENT_AGENCY';
+const UPDATE_CURRENT_DATASET = 'UPDATE_CURRENT_DATASET';
 
 // Action Creators
 const storeCapitalExp = (capitalExp) => ({
@@ -33,9 +38,9 @@ const storeExpenseActuals = (expenseActuals) => ({
   expenseActuals,
 });
 
-const updateCurrentAgency = (agency) => ({
-  type: UPDATE_CURRENT_AGENCY,
-  agency,
+const updateCurrentDataSet = (currentDataSet) => ({
+  type: UPDATE_CURRENT_DATASET,
+  currentDataSet,
 });
 
 // Thunk Creators
@@ -44,10 +49,10 @@ export const getCapitalExp = () => async (dispatch) => {
     let res = await axios.get(
       'https://data.cityofnewyork.us/resource/hukm-snmq.json'
     );
-    const data = res.data;
-    // ALGORITHM TO MANIPULATE DATA
-    dispatch(storeCapitalExp(data));
-    dispatch(updateCurrentAgency('capitalExp'));
+    const processedData = processCapitalExpenditures(res.data);
+
+    dispatch(storeCapitalExp(processedData));
+    dispatch(updateCurrentDataSet('capitalExp'));
   } catch (err) {
     console.error(err);
   }
@@ -58,12 +63,10 @@ export const getAgencyExp = () => async (dispatch) => {
     let res = await axios.get(
       'https://data.cityofnewyork.us/resource/cwjy-rrh3.json'
     );
-    const data = res.data;
+    const processedData = parseAgencyApi(res.data);
 
-    // ALGORITHM TO MANIPULATE DATA
-
-    dispatch(storeAgencyExp(data));
-    dispatch(updateCurrentAgency('agencyExp'));
+    dispatch(storeAgencyExp(processedData));
+    dispatch(updateCurrentDataSet('agencyExp'));
   } catch (err) {
     console.error(err);
   }
@@ -74,12 +77,10 @@ export const getExpenseActuals = () => async (dispatch) => {
     let res = await axios.get(
       'https://data.cityofnewyork.us/resource/7yay-m4ae.json'
     );
-    const data = res.data;
+    const processedData = parseExpenseActuals(res.data);
 
-    // ALGORITHM TO MANIPULATE DATA
-
-    dispatch(storeExpenseActuals(data));
-    dispatch(updateCurrentAgency('expenseActuals'));
+    dispatch(storeExpenseActuals(processedData));
+    dispatch(updateCurrentDataSet('expenseActuals'));
   } catch (err) {
     console.error(err);
   }
@@ -97,8 +98,8 @@ const reducer = (state = defaultState, action) => {
     case STORE_EXPENSE_ACTUALS:
       state.expenseActuals = action.expenseActuals;
       return state;
-    case UPDATE_CURRENT_AGENCY:
-      state.currentAgency = action.agency;
+    case UPDATE_CURRENT_DATASET:
+      state.currentDataSet = action.currentDataSet;
       return state;
     default:
       return state;
