@@ -8,6 +8,7 @@ import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import { getCapitalExp, getAgencyExp, getExpenseActuals } from '../store';
 import { connect } from 'react-redux';
+import Graph from './Graph';
 
 const useStyles = (theme) => ({
   root: {
@@ -46,37 +47,41 @@ class Cards extends Component {
           'How much money an account has paid out in expenditures at a given point in time during a fiscal year.',
       },
     ];
+
     return (
-      <div className="rows">
-        {listOfExpenses.map((currentExpense, index) => {
-          return (
-            <Card
-              className={classes.root}
-              variant="outlined"
-              key={currentExpense.name}
-              style={{ flex: '1 1 0', padding: '0 1rem' }}
-            >
-              <CardContent>
-                <Typography variant="h5" component="h2" gutterBottom={true}>
-                  {currentExpense.name}
-                </Typography>
-                <Typography variant="body2" component="p" align="left">
-                  {currentExpense.definition}
-                </Typography>
-              </CardContent>
-              <CardActions className="title">
-                <Button
-                  size="small"
-                  onClick={() => {
-                    this.props.getData(currentExpense.name);
-                  }}
-                >
-                  Show Graph
-                </Button>
-              </CardActions>
-            </Card>
-          );
-        })}
+      <div>
+          <div className="rows">
+          {listOfExpenses.map((currentExpense) => {
+            return (
+              <Card
+                className={classes.root}
+                variant="outlined"
+                key={currentExpense.name}
+                style={{ flex: '1 1 0', padding: '0 1rem' }}
+              >
+                <CardContent>
+                  <Typography variant="h5" component="h2" gutterBottom={true}>
+                    {currentExpense.name}
+                  </Typography>
+                  <Typography variant="body2" component="p" align="left">
+                    {currentExpense.definition}
+                  </Typography>
+                </CardContent>
+                <CardActions className="title">
+                  <Button
+                    size="small"
+                    onClick={() => {
+                      this.props.getData(currentExpense.name);
+                    }}
+                  >
+                    Show Graph
+                  </Button>
+                </CardActions>
+                </Card>
+            );
+          })}
+          </div>
+        <Graph currentDataSet={this.props.currentDataSet()}/>
       </div>
     );
   }
@@ -104,4 +109,18 @@ const mapDispatch = (dispatch) => ({
   },
 });
 
-export default connect(null, mapDispatch)(withStyles(useStyles)(Cards));
+const mapState = (state) => ({
+  currentDataSet: () => {
+    if (state.currentDataSet === 'capitalExp') {
+      return state.capitalExp
+    } else if (state.currentDataSet === 'agencyExp') {
+      return state.agencyExp
+    } else if (state.currentDataSet === 'expenseActuals') {
+      return state.expenseActuals;
+    } else {
+      return [];
+    }
+  }
+})
+
+export default connect(mapState, mapDispatch)(withStyles(useStyles)(Cards));

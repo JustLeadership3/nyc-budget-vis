@@ -13,7 +13,7 @@ const defaultState = {
   currentDataSet: '',
   capitalExp: null,
   agencyExp: null,
-  expenseActuals: null,
+  expenseActuals: [0, 1, 2],
 };
 
 // Action Types
@@ -88,19 +88,20 @@ export const getExpenseActuals = () => async (dispatch) => {
 
 // Reducer
 const reducer = (state = defaultState, action) => {
+    let newState;
   switch (action.type) {
     case STORE_CAPITAL_EXP:
-      state.capitalExp = action.capitalExp;
-      return state;
+       newState = {...state, capitalExp: action.capitalExp}
+      return newState;
     case STORE_AGENCY_EXP:
-      state.agencyExp = action.agencyExp;
-      return state;
+       newState = {...state, agencyExp: action.agencyExp}
+      return newState;
     case STORE_EXPENSE_ACTUALS:
-      state.expenseActuals = action.expenseActuals;
-      return state;
+       newState = {...state, expenseActuals: action.expenseActuals}
+      return newState;
     case UPDATE_CURRENT_DATASET:
-      state.currentDataSet = action.currentDataSet;
-      return state;
+      newState = {...state, currentDataSet: action.currentDataSet};
+      return newState;
     default:
       return state;
   }
