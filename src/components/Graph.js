@@ -6,6 +6,7 @@ import { VictoryChart, VictoryLine, VictoryTheme, VictoryLegend, VictoryLabel } 
 
 class Graph extends Component {
   render () {
+    let legendData = [];
 
     const returnedArray = [
         { agency: "NYPD",
@@ -28,58 +29,32 @@ class Graph extends Component {
         ]}
       ];
 
-      function findLowestXHighestY(data) {
-        let y = -Infinity;
-        let x = Infinity;
-    
-        for (let i = 0; i < data.length; i++) {
-            let currElem = data[i];
-            for (let k = 0; k < currElem.data.length; k++) {
-                let currXAndY = currElem.data[k];
-                if (currXAndY.x < x) {
-                    x = currXAndY.x;
-                }
-                if (currXAndY.y > y) {
-                    y = currXAndY.y
-                }
-            }
+      function getRandomColor() {
+        var letters = '0123456789ABCDEF';
+        var color = '#';
+        for (var i = 0; i < 6; i++) {
+          color += letters[Math.floor(Math.random() * 16)];
         }
-    
-            return {y, x};
-        }
-
-    const LowestXhighestY = findLowestXHighestY(returnedArray);
+        return color;
+      }
 
     return (
         <div id={"graph-container"}>
             <VictoryChart
+                scale="linear"
                 theme={VictoryTheme.material}
-                domain={{x: [LowestXhighestY.x, 2019], y: [0, LowestXhighestY.y]}}
-                
             >
                 <VictoryLabel text="Chart Title" x={225} y={30} textAnchor="middle"/>
 
-                <VictoryLine
-                style={{
-                    data: { stroke: "#C43A31" },
-                    parent: { border: "1px solid #ccc"}
-                }}
-                data={[
-                    { x: 1, y: 5 },
-                    { x: 2, y: 6 },
-                    { x: 3, y: 8 },
-                    { x: 4, y: 9 },
-                    { x: 5, y: 5 }
-                ]}
-                />
-
             {
                 returnedArray.map((currentDept) => {
+                    let color = getRandomColor();
+                    legendData.push({name: currentDept.agency, symbol: {fill: color}})
                     return (
                     <VictoryLine
                     key={currentDept.agency}
                     style={{
-                        data: { stroke: "#C43A31" },
+                        data: { stroke: color},
                         parent: { border: "1px solid #ccc"}
                     }}
                     data={ currentDept.data }
@@ -89,13 +64,7 @@ class Graph extends Component {
             <VictoryLegend       
                 gutter={20}
                 itemsPerRow={5}
-                data={[
-                    {name: 'One', symbol: {fill: "tomato", type: "star"}},
-                    {name: 'Two', symbol: {fill: "orange"}},
-                    {name: 'Three', symbol: {fill: "gold"}},
-                    {name: 'Three', symbol: {fill: "gold"}},
-
-                ]}
+                data={legendData}
             />
       </div>
     );
