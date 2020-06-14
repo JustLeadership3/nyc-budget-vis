@@ -2,12 +2,11 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
-import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 import Button from '@material-ui/core/Button';
-import Typography from '@material-ui/core/Typography';
 import { getCapitalExp, getAgencyExp, getExpenseActuals } from '../store';
 import { connect } from 'react-redux';
+import Graph from './Graph';
 
 const useStyles = (theme) => ({
   root: {
@@ -46,9 +45,11 @@ class Cards extends Component {
           'How much money an account has paid out in expenditures at a given point in time during a fiscal year.',
       },
     ];
+
     return (
+      <div>
       <div className="card-container">
-        {listOfExpenses.map((currentExpense, index) => {
+        {listOfExpenses.map((currentExpense) => {
           return (
             <Card
               className={`${classes.root}} card`}
@@ -63,17 +64,19 @@ class Cards extends Component {
                   {currentExpense.definition}
                   </p>
               </CardContent>
-                <Button
-                  id="button"
-                  onClick={() => {
-                    this.props.getData(currentExpense.name);
-                  }}
-                >
-                  Show Graph
-                </Button>
+              <Button
+                id="button"
+                onClick={() => {
+                  this.props.getData(currentExpense.name);
+                }}
+              >
+                Show Graph
+              </Button>
             </Card>
           );
         })}
+      </div>
+      <Graph currentDataSet={this.props.currentDataSet()} currentDataSetName={this.props.currentDataSetName}/>
       </div>
     );
   }
@@ -101,4 +104,21 @@ const mapDispatch = (dispatch) => ({
   },
 });
 
-export default connect(null, mapDispatch)(withStyles(useStyles)(Cards));
+const mapState = (state) => ({
+  currentDataSet: () => {
+    if (state.currentDataSet === 'capitalExp') {
+      return state.capitalExp
+    } else if (state.currentDataSet === 'agencyExp') {
+      return state.agencyExp
+    } else if (state.currentDataSet === 'expenseActuals') {
+      return state.expenseActuals;
+    } else {
+      return [];
+    }
+  },
+
+  currentDataSetName: state.currentDataSet
+
+})
+
+export default connect(mapState, mapDispatch)(withStyles(useStyles)(Cards));

@@ -22,27 +22,20 @@ function processCapitalExpenditures(json) {
   let k = 0;
   while (k < bulkTotals.length) {
     const oneDepartment = bulkTotals[k];
-    const allKeys = Object.keys(oneDepartment);
-    const fiscalYearInt = [];
-    allKeys.forEach((element) => {
-      fiscalYearInt.push(element.substring(3));
-    });
-    // keeps all the fiscal years in order, the last element is the "agency_capital_expenditures_by_purpose" label and is removed automatically
-    fiscalYearInt.sort();
-    fiscalYearInt.pop();
-    const last5Years = fiscalYearInt.slice(-5);
-
-    // will be the container for the x and y values which will be year and dollar amounts
+    const currDate = new Date(Date.now());
+    const currYear = currDate.getFullYear();
     let dataArray = [];
 
-    last5Years.forEach((fiscalYearInt) => {
-      const fiscalYearString = oneDepartment[`fy_${fiscalYearInt}`];
-      const amountInt = parseFloat(fiscalYearString.replace(/,/g, ''));
-      let valuesHash = {};
-      valuesHash['x'] = `${fiscalYearInt}`;
-      valuesHash['y'] = amountInt;
-      dataArray.push(valuesHash);
-    });
+    for (let year = currYear - 10; year <= currYear; year++) {
+      const fiscalYearString = oneDepartment[`fy_${year}`];
+      if (fiscalYearString !== undefined) {
+        const amountInt = parseFloat(fiscalYearString.replace(/,/g, ''));
+        let valuesHash = {};
+        valuesHash['x'] = year.toString();
+        valuesHash['y'] = amountInt;
+        dataArray.push(valuesHash);
+      }
+    }
 
     // will be the container to hold the department's name and data
     let departmentHash = {};
