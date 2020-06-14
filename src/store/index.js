@@ -15,6 +15,7 @@ const defaultState = {
 const STORE_CAPITAL_EXP = 'STORE_CAPITAL_EXP';
 const STORE_AGENCY_EXP = 'STORE_AGENCY_EXP';
 const STORE_EXPENSE_ACTUALS = 'STORE_EXPENSE_ACTUALS';
+const UPDATE_CURRENT_AGENCY = 'UPDATE_CURRENT_AGENCY';
 
 // Action Creators
 const storeCapitalExp = (capitalExp) => ({
@@ -32,6 +33,11 @@ const storeExpenseActuals = (expenseActuals) => ({
   expenseActuals,
 });
 
+const updateCurrentAgency = (agency) => ({
+  type: UPDATE_CURRENT_AGENCY,
+  agency,
+});
+
 // Thunk Creators
 export const getCapitalExp = () => async (dispatch) => {
   try {
@@ -40,8 +46,8 @@ export const getCapitalExp = () => async (dispatch) => {
     );
     const data = res.data;
     // ALGORITHM TO MANIPULATE DATA
-
     dispatch(storeCapitalExp(data));
+    dispatch(updateCurrentAgency('capitalExp'));
   } catch (err) {
     console.error(err);
   }
@@ -57,6 +63,7 @@ export const getAgencyExp = () => async (dispatch) => {
     // ALGORITHM TO MANIPULATE DATA
 
     dispatch(storeAgencyExp(data));
+    dispatch(updateCurrentAgency('agencyExp'));
   } catch (err) {
     console.error(err);
   }
@@ -72,6 +79,7 @@ export const getExpenseActuals = () => async (dispatch) => {
     // ALGORITHM TO MANIPULATE DATA
 
     dispatch(storeExpenseActuals(data));
+    dispatch(updateCurrentAgency('expenseActuals'));
   } catch (err) {
     console.error(err);
   }
@@ -88,6 +96,9 @@ const reducer = (state = defaultState, action) => {
       return state;
     case STORE_EXPENSE_ACTUALS:
       state.expenseActuals = action.expenseActuals;
+      return state;
+    case UPDATE_CURRENT_AGENCY:
+      state.currentAgency = action.agency;
       return state;
     default:
       return state;
