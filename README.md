@@ -16,3 +16,5 @@ Welcome to NYC Budget Visual! The goal of our app is to make NYC's budget data r
 
 - Clone the repo and `npm install` the dependencies.
 - `npm start` will run in a dev environment.
+
+This app was created by [Clara](https://github.com/CEsGutierrez), [Jason](https://github.com/cho-jason) and [Simon](https://github.com/SimonGutierrez) using React and Redux. 
