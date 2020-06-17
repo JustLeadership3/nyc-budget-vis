@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="./public/animation.json">
+  <img src="./public/darker_logo.jpg">
 </p>
 
 # NYC-Budget-Vis
