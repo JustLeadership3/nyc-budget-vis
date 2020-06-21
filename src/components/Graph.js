@@ -9,8 +9,8 @@ import {
 
 class Graph extends Component {
   render() {
-    let legendData = [];
-
+    const legendData = [];
+    const displayName = this.props.currentDataSetName;
     const returnedArray = this.props.currentDataSet;
 
     function getRandomColor() {
@@ -22,34 +22,24 @@ class Graph extends Component {
       return color;
     }
 
-    let displayName = ""
-
-    if (this.props.currentDataSetName === 'capitalExp') {
-      displayName = "Capital Expenditures"
-    } else if (this.props.currentDataSetName === 'agencyExp') {
-      displayName = "Agency Expenditures"
-    } else if (this.props.currentDataSetName === 'expenseActuals') {
-      displayName = "Expense Actuals"
-    }
-
-    console.log(this.props.currentDataSetName)
     return (
       <div id={'graph-container'}>
         <VictoryChart
-        id="victory-chart"
+          id="victory-chart"
           scale="linear"
           theme={VictoryTheme.material}
-          padding={{left: 100, bottom: 50, right: 100, top: 100}}
-          style={{parent: { maxwidth: 1000}}}
+          padding={{ left: 100, bottom: 50, right: 100, top: 100 }}
+          style={{ parent: { maxwidth: 1000 } }}
           width={1000} // aspect ratio to stretch graph horizontally
         >
           <VictoryLabel
-          id="chart-title"
-          text={displayName}
-          style={{fontSize: "20px"}}
-          dy={30}
-          dx={30}
-          textAnchor="start"/>
+            id="chart-title"
+            text={displayName}
+            style={{ fontSize: '20px' }}
+            dy={30}
+            dx={30}
+            textAnchor="start"
+          />
 
           {returnedArray.map((currentDept) => {
             let color = getRandomColor();
@@ -69,7 +59,7 @@ class Graph extends Component {
             );
           })}
         </VictoryChart>
-        <VictoryLegend  
+        <VictoryLegend
           gutter={20}
           itemsPerRow={30}
           data={legendData}

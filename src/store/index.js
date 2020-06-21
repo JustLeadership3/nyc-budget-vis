@@ -52,7 +52,7 @@ export const getCapitalExp = () => async (dispatch) => {
     const processedData = processCapitalExpenditures(res.data);
 
     dispatch(storeCapitalExp(processedData));
-    dispatch(updateCurrentDataSet('capitalExp'));
+    dispatch(updateCurrentDataSet('Capital Expenditures'));
   } catch (err) {
     console.error(err);
   }
@@ -66,7 +66,7 @@ export const getAgencyExp = () => async (dispatch) => {
     const processedData = parseAgencyApi(res.data);
 
     dispatch(storeAgencyExp(processedData));
-    dispatch(updateCurrentDataSet('agencyExp'));
+    dispatch(updateCurrentDataSet('Agency Expenditures'));
   } catch (err) {
     console.error(err);
   }
@@ -80,7 +80,7 @@ export const getExpenseActuals = () => async (dispatch) => {
     const processedData = parseExpenseActuals(res.data);
 
     dispatch(storeExpenseActuals(processedData));
-    dispatch(updateCurrentDataSet('expenseActuals'));
+    dispatch(updateCurrentDataSet('Expense Actuals'));
   } catch (err) {
     console.error(err);
   }
@@ -88,19 +88,19 @@ export const getExpenseActuals = () => async (dispatch) => {
 
 // Reducer
 const reducer = (state = defaultState, action) => {
-    let newState;
+  let newState;
   switch (action.type) {
     case STORE_CAPITAL_EXP:
-       newState = {...state, capitalExp: action.capitalExp}
+      newState = { ...state, capitalExp: action.capitalExp };
       return newState;
     case STORE_AGENCY_EXP:
-       newState = {...state, agencyExp: action.agencyExp}
+      newState = { ...state, agencyExp: action.agencyExp };
       return newState;
     case STORE_EXPENSE_ACTUALS:
-       newState = {...state, expenseActuals: action.expenseActuals}
+      newState = { ...state, expenseActuals: action.expenseActuals };
       return newState;
     case UPDATE_CURRENT_DATASET:
-      newState = {...state, currentDataSet: action.currentDataSet};
+      newState = { ...state, currentDataSet: action.currentDataSet };
       return newState;
     default:
       return state;

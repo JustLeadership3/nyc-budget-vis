@@ -48,35 +48,34 @@ class Cards extends Component {
 
     return (
       <div>
-      <div className="card-container">
-        {listOfExpenses.map((currentExpense) => {
-          return (
-            <Card
-              className={`${classes.root}} card`}
-              variant="outlined"
-              key={currentExpense.name}
-            >
-              <CardContent >
-                <p className="card-title">
-                  {currentExpense.name}
-                  </p>
-                  <p className="card-descrition">
-                  {currentExpense.definition}
-                  </p>
-              </CardContent>
-              <Button
-                id="button"
-                onClick={() => {
-                  this.props.getData(currentExpense.name);
-                }}
+        <div className="card-container">
+          {listOfExpenses.map((currentExpense) => {
+            return (
+              <Card
+                className={`${classes.root}} card`}
+                variant="outlined"
+                key={currentExpense.name}
               >
-                Show Graph
-              </Button>
-            </Card>
-          );
-        })}
-      </div>
-      <Graph currentDataSet={this.props.currentDataSet()} currentDataSetName={this.props.currentDataSetName}/>
+                <CardContent>
+                  <p className="card-title">{currentExpense.name}</p>
+                  <p className="card-descrition">{currentExpense.definition}</p>
+                </CardContent>
+                <Button
+                  id="button"
+                  onClick={() => {
+                    this.props.getData(currentExpense.name);
+                  }}
+                >
+                  Show Graph
+                </Button>
+              </Card>
+            );
+          })}
+        </div>
+        <Graph
+          currentDataSet={this.props.currentDataSet()}
+          currentDataSetName={this.props.currentDataSetName}
+        />
       </div>
     );
   }
@@ -106,19 +105,18 @@ const mapDispatch = (dispatch) => ({
 
 const mapState = (state) => ({
   currentDataSet: () => {
-    if (state.currentDataSet === 'capitalExp') {
-      return state.capitalExp
-    } else if (state.currentDataSet === 'agencyExp') {
-      return state.agencyExp
-    } else if (state.currentDataSet === 'expenseActuals') {
+    if (state.currentDataSet === 'Capital Expenditures') {
+      return state.capitalExp;
+    } else if (state.currentDataSet === 'Agency Expenditures') {
+      return state.agencyExp;
+    } else if (state.currentDataSet === 'Expense Actuals') {
       return state.expenseActuals;
     } else {
       return [];
     }
   },
 
-  currentDataSetName: state.currentDataSet
-
-})
+  currentDataSetName: state.currentDataSet,
+});
 
 export default connect(mapState, mapDispatch)(withStyles(useStyles)(Cards));
