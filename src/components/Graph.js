@@ -6,6 +6,7 @@ import {
   VictoryLegend,
   VictoryLabel,
 } from 'victory';
+import './Graph.css';
 
 class Graph extends Component {
   render() {

@@ -1,29 +1,11 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { withStyles } from '@material-ui/core/styles';
-import Card from '@material-ui/core/Card';
-import CardContent from '@material-ui/core/CardContent';
 import Button from '@material-ui/core/Button';
 import { getCapitalExp, getAgencyExp, getExpenseActuals } from '../store';
 import { connect } from 'react-redux';
 import Graph from './Graph';
+import './Cards.css';
 
-const useStyles = (theme) => ({
-  root: {
-    minWidth: 100,
-  },
-  bullet: {
-    display: 'inline-block',
-    margin: '0 2px',
-    transform: 'scale(0.8)',
-  },
-  title: {
-    fontSize: 14,
-  },
-  pos: {
-    marginBottom: 12,
-  },
-});
 
 class Cards extends Component {
   render() {
@@ -48,22 +30,20 @@ class Cards extends Component {
 
     return (
       <div>
-      <div className="card-container">
+      <div id="card-container">
         {listOfExpenses.map((currentExpense) => {
           return (
-            <Card
-              className={`${classes.root}} card`}
-              variant="outlined"
-              key={currentExpense.name}
+            <div
+              className="card"
             >
-              <CardContent >
+              <div className="card-text">
                 <p className="card-title">
                   {currentExpense.name}
                   </p>
                   <p className="card-descrition">
                   {currentExpense.definition}
                   </p>
-              </CardContent>
+              </div>
               <Button
                 id="button"
                 onClick={() => {
@@ -72,7 +52,7 @@ class Cards extends Component {
               >
                 Show Graph
               </Button>
-            </Card>
+            </div>
           );
         })}
       </div>
@@ -121,4 +101,4 @@ const mapState = (state) => ({
 
 })
 
-export default connect(mapState, mapDispatch)(withStyles(useStyles)(Cards));
+export default connect(mapState, mapDispatch)(Cards);

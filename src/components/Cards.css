@@ -1,0 +1,43 @@
+#card-container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+}
+
+.card:first-of-type, .card:last-of-type{
+  background-color: #00B89F;
+}
+
+.card:nth-of-type(2) {
+  background-color: #F0B74C
+}
+
+.card {
+  flex-basis: 100%;
+  display: grid;
+  grid-template-rows: 20% 60% 20%;
+  padding: 0.5em;
+}
+
+.card-title {
+  grid-row: 1;
+  font-size: 20px;
+  text-align: left;
+  margin-top: 0px;
+}
+
+.card-descrition {
+  grid-row: 2;
+  margin: 0;
+  font-size: 14px;
+  text-align: left;
+}
+
+#button {
+  grid-row: 3;
+  justify-content: center;
+  background-color: white;
+  width: fit-content;
+  justify-self: center;
+}

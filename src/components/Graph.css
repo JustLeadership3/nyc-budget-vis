@@ -1,0 +1,16 @@
+#graph-container {
+  align-items: center;
+  height: 60vh;
+  width: 80vw;
+  margin: auto;
+}
+
+#graph-container svg text tspan {
+padding-left: 1000px;
+}
+
+#graph-container:last-child {
+  position: relative;
+  top: 0;
+  right: 0
+}
