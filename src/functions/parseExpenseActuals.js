@@ -1,24 +1,20 @@
 function parseExpenseActuals(json) {
   // holds the department name, the last 5 years of data, money (in thousands) spent that year
   let tempHash = {};
+  const currDate = new Date(Date.now());
+  const currYear = currDate.getFullYear();
 
   json.forEach((entry) => {
     const agencyName = entry['agy_nm'];
-    const fiscalYear = parseInt(entry['fisc_yr']);
-    const cityFunds = parseInt(entry['cty_fnd']);
+    const fiscalYear = parseInt(entry['fisc_yr'], 10);
+    const cityFunds = parseInt(entry['cty_fnd'], 10);
 
-    if (agencyName in tempHash !== true) {
-      tempHash[agencyName] = {};
-      tempHash[agencyName]['topFiveYears'] = [fiscalYear];
-      tempHash[agencyName]['topFiveYears'].sort();
-      tempHash[agencyName][fiscalYear] = cityFunds;
-    } else if (tempHash[agencyName]['topFiveYears'].length < 5) {
-      tempHash[agencyName]['topFiveYears'].push(fiscalYear);
-      tempHash[agencyName]['topFiveYears'].sort();
-      tempHash[agencyName][fiscalYear] = cityFunds;
-    } else if (fiscalYear > tempHash[agencyName]['topFiveYears'][4]) {
-      tempHash[agencyName]['topFiveYears'].pop();
-      delete tempHash[agencyName].temp;
+    // Only store entries if fiscalYear is within last 10 years from currYear
+    if (fiscalYear >= currYear - 10 && fiscalYear <= currYear) {
+      // If agencyName is not in tempHash, initialize agency as emtpy object
+      if (agencyName in tempHash !== true) {
+        tempHash[agencyName] = {};
+      }
       tempHash[agencyName][fiscalYear] = cityFunds;
     }
   });
@@ -30,13 +26,11 @@ function parseExpenseActuals(json) {
     let departmentHash = {};
     departmentHash['agency'] = department.toUpperCase();
     let dataArray = [];
-    for (let [key, value] of Object.entries(information)) {
-      if (key !== 'topFiveYears') {
-        let temp = {};
-        temp['x'] = key;
-        temp['y'] = value * 1000;
-        dataArray.push(temp);
-      }
+    for (let [year, expense] of Object.entries(information)) {
+      dataArray.push({
+        x: year,
+        y: expense * 1000, // Dollar fields was rounded to thousdands
+      });
     }
     departmentHash['data'] = dataArray;
     returnArray.push(departmentHash);
